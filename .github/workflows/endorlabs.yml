@@ -1,7 +1,10 @@
 name: Scan
 
 on:
-  workflow_dispatch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   scan:
@@ -9,6 +12,8 @@ jobs:
       security-events: write
       contents: read
       id-token: write
+      pull-requests: write
+      issues: write
     runs-on: windows-latest
     steps:
     - name: Checkout Repository
@@ -24,11 +29,14 @@ jobs:
     - name: Run endorctl
       uses: endorlabs/github-action@v1.1.2
       with:
-        namespace: "matt-learn"
-        api: "https://api.staging.endorlabs.com"
+        namespace: "matt-demo-2"
+        api: "https://api.endorlabs.com"
         enable_github_action_token: "true"
-        pr: false
+        enable_pr_comments: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         sarif_file: endor-labs.sarif
+        tags: "actor=${{ github.actor }},run-id=${{ github.run_id }}"
+
 
     #- name: Upload SARIF to github
      # uses: github/codeql-action/upload-sarif@v3
