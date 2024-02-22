@@ -25,7 +25,8 @@ jobs:
         namespace: "matt-demo-2"
         api: "https://api.endorlabs.com"
         enable_github_action_token: "true"
-        pr: false
+# Set to false to track this scan as the daily monitored version within Endor Labs, as opposed to a point-in-time test for a PR.
+#        pr: true
         enable_pr_comments: true
         github_token: ${{ secrets.GITHUB_TOKEN }}
         tags: "actor=${{ github.actor }},run-id=${{ github.run_id }}"
